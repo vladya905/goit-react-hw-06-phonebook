@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+
+import { useDispatch } from 'react-redux';
+import { contactsAdd } from '../../redux/contactsSlice';
 import css from './ContactForm.module.css';
 
-const ContactForm = ({ onAddContact }) => {
+const ContactForm = () => {
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -26,7 +29,12 @@ const ContactForm = ({ onAddContact }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    onAddContact({ name, number });
+    if (name.trim() === '' || number.trim() === '') {
+      alert('Fields must be filled!');
+      return;
+    }
+
+    dispatch(contactsAdd({ name, number }));
 
     setName('');
     setNumber('');
@@ -65,10 +73,6 @@ const ContactForm = ({ onAddContact }) => {
       </button>
     </form>
   );
-}
-
-ContactForm.propTypes = {
-  onAddContact: PropTypes.func.isRequired,
 };
 
 export default ContactForm;
