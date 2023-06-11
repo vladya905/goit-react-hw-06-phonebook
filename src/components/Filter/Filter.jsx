@@ -1,3 +1,4 @@
+import  PropTypes  from 'prop-types';
 import React, { useState } from 'react';
 
 function Filter({ onFilterChange }) {
@@ -15,5 +16,9 @@ function Filter({ onFilterChange }) {
     </div>
   );
 }
+Filter.propTypes = {
+  onFilterChange: PropTypes.func.isRequired,
+};
+
 
 export default Filter;
