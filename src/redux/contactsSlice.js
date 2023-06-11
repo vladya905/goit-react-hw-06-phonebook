@@ -1,9 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
 const initialState = {
   items: [],
-  filter: '',
 };
 
 const contactsSlice = createSlice({
@@ -17,30 +15,18 @@ const contactsSlice = createSlice({
 
       if (!isDuplicate) {
         state.items.push({ id: Date.now().toString(), ...payload });
+      } else {
+        alert("This contact already exists");
       }
     },
     contactsDelete: (state, { payload }) => {
       state.items = state.items.filter((contact) => contact.id !== payload);
     },
-    contactsFilter: (state, { payload }) => {
-      state.filter = payload;
-    },
-    contactsFilterClear: (state) => {
-      state.filter = '';
-    },
   },
 });
 
-export const { contactsAdd, contactsDelete, contactsFilter, contactsFilterClear } =
-  contactsSlice.actions;
+export const { contactsAdd, contactsDelete } = contactsSlice.actions;
 
-export const selectContacts = (state) => {
-  const { contacts: { items, filter } } = state;
-  const normalizedFilter = filter.toLowerCase();
-  
-  return items.filter(({ name }) => name.toLowerCase().includes(normalizedFilter));
-}
-
-export const selectFilter = (state) => state.contacts.filter;
+export const selectContacts = (state) => state.contacts.items;
 
 export default contactsSlice.reducer;

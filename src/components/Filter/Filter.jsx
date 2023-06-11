@@ -1,13 +1,11 @@
-import React from 'react';
-import { useSelector, useDispatch} from 'react-redux';
-import { contactsFilter, selectFilter } from '../../redux/contactsSlice';
+import React, { useState } from 'react';
 
-function Filter() {
-  const dispatch = useDispatch();
-  const filter = useSelector(selectFilter);
+function Filter({ onFilterChange }) {
+  const [filter, setFilter] = useState('');
 
-  const handleFilterChange = (event) => {
-    dispatch(contactsFilter(event.target.value));
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+    onFilterChange(e.target.value);
   };
 
   return (
@@ -17,7 +15,5 @@ function Filter() {
     </div>
   );
 }
-
-
 
 export default Filter;
