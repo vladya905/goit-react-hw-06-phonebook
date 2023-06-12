@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   items: [],
+  filter: '',
 };
 
 const contactsSlice = createSlice({
@@ -22,11 +23,21 @@ const contactsSlice = createSlice({
     contactsDelete: (state, { payload }) => {
       state.items = state.items.filter((contact) => contact.id !== payload);
     },
+    filterChange: (state, { payload }) => {
+      state.filter = payload;
+    },
   },
 });
 
-export const { contactsAdd, contactsDelete } = contactsSlice.actions;
+export const { contactsAdd, contactsDelete, filterChange } = contactsSlice.actions;
 
 export const selectContacts = (state) => state.contacts.items;
+export const selectFilter = (state) => state.contacts.filter;
+export const selectFilteredContacts = (state) => {   // Экспортируем новый селектор
+  const { items, filter } = state.contacts;
+  return items.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+};
 
 export default contactsSlice.reducer;
